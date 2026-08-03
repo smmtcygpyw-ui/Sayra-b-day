@@ -1,272 +1,255 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
 }
 
 body {
-    background-color: #ffd1dc; /* Soft pastel pink */
-    font-family: 'Nunito', sans-serif;
-    color: #5a3e3e;
+    /* Beautiful Polka Dot Background */
+    background-color: #ffe6ea;
+    background-image: radial-gradient(#ffb6c1 20%, transparent 20%), radial-gradient(#ffb6c1 20%, transparent 20%);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    color: #880e4f;
     overflow-x: hidden;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-/* Background Music Toggle */
-#music-toggle {
+h1, h2, h3 {
+    font-family: 'Fredoka One', cursive;
+    color: #d81b60;
+    text-align: center;
+}
+
+h2 { margin-bottom: 20px; font-size: 28px; }
+.big-heading { font-size: 32px; margin-bottom: 10px; color: #c2185b; }
+.subtitle { font-size: 20px; font-weight: bold; margin: 15px 0; color: #ad1457; }
+
+/* Floating Audio Button */
+#musicToggle {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
-    background: #ff9a9e;
+    background: #ff4081;
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
+    padding: 12px 18px;
+    border-radius: 25px;
+    font-weight: 900;
+    font-size: 16px;
     cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
     z-index: 1000;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    transition: 0.3s;
 }
-#music-toggle.hidden {
-    display: none;
-}
-#music-toggle:active {
-    transform: scale(0.9);
-}
+#musicToggle:hover { transform: scale(1.1); }
 
-/* Screen Management */
+/* Screens Layout - Fixed cutting off issues */
 .screen {
     display: none;
     width: 100%;
-    height: 100%;
+    min-height: 100vh; /* Changed from height to min-height */
+    padding: 40px 20px; /* Added padding so content never hits edges */
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    padding: 20px;
-    animation: fadeIn 0.8s ease-in-out;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .screen.active {
     display: flex;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* Passcode Screen Layout */
-.passcode-container {
-    display: flex;
-    flex-direction: row;
-    background: white;
+/* Generic Content Box */
+.content-box {
+    background: rgba(255, 255, 255, 0.95);
     padding: 40px;
     border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    gap: 40px;
-    align-items: center;
-    max-width: 900px;
+    box-shadow: 0 15px 35px rgba(216, 27, 96, 0.15);
+    text-align: center;
+    max-width: 700px;
     width: 100%;
+    border: 3px solid #ffb6c1;
 }
-@media (max-width: 768px) {
-    .passcode-container {
-        flex-direction: column;
-        padding: 20px;
-        gap: 20px;
-    }
-}
+.transparent-box { background: rgba(255, 255, 255, 0.85); border: none; box-shadow: none; }
 
-.photo-frame {
-    border: 8px solid #ffb6c1;
+.main-gif {
+    width: 220px;
     border-radius: 20px;
-    overflow: hidden;
-    width: 300px;
-    height: 350px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin: 10px auto;
+    display: block;
 }
-.photo-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.float-anim {
+    animation: floatUpDown 3s infinite ease-in-out;
 }
-.photo-frame.small {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin: 15px auto;
+@keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
-/* Numpad Styling */
-.numpad-section {
+/* Screen 1: Passcode */
+.passcode-container {
+    display: flex;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(216, 27, 96, 0.2);
+    overflow: hidden;
+    max-width: 750px;
+    width: 100%;
+    flex-wrap: wrap;
+    border: 4px solid #f8bbd0;
+}
+.photo-side {
+    background: #fff0f5;
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+.frame {
+    border: 8px solid #ff80ab;
+    border-radius: 50%;
+    padding: 5px;
+    background: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.frame img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.keypad-side {
+    flex: 1;
+    min-width: 300px;
+    padding: 40px;
+    background: #fce4ec;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
 }
-.numpad-section h2 {
-    font-family: 'Fredoka One', cursive;
-    color: #ff8b94;
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-}
-.dots-container {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 10px;
-}
+.dots { display: flex; gap: 15px; margin-bottom: 20px; }
 .dot {
-    width: 20px;
-    height: 20px;
-    background: #ffe4e1;
-    border-radius: 50%;
-    border: 2px solid #ff8b94;
-    transition: background 0.3s;
+    width: 20px; height: 20px; background: white;
+    border-radius: 50%; border: 3px solid #d81b60;
 }
-.dot.filled {
-    background: #ff8b94;
+.dot.filled { background: #d81b60; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.key {
+    width: 65px; height: 65px; border-radius: 50%; border: none;
+    background: white; font-size: 26px; font-weight: 900; color: #d81b60;
+    cursor: pointer; box-shadow: 0 5px 0 #f48fb1; transition: 0.1s;
 }
-.error-msg {
-    color: red;
-    font-weight: bold;
-    height: 20px;
-    margin-bottom: 15px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.numpad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-.num-btn {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    background: #ffb6c1;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.1s, background 0.2s;
-}
-.num-btn:active {
-    transform: scale(0.9);
-    background: #ff8b94;
-}
-.action-btn {
-    background: #ff9a9e;
-    font-size: 1rem;
-}
-
-/* General Cards */
-.card {
-    background: white;
-    padding: 40px;
-    border-radius: 30px;
-    text-align: center;
-    max-width: 600px;
-    width: 100%;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-.gif-img {
-    width: 200px;
-    height: auto;
-    margin-bottom: 20px;
-}
-.card h2 {
-    font-family: 'Fredoka One', cursive;
-    color: #ff8b94;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
+.key:active { transform: translateY(5px); box-shadow: none; }
+.error { color: #d32f2f; font-weight: 900; margin-bottom: 15px; font-size: 16px; }
+.hidden { visibility: hidden; }
 
 /* Buttons */
-.btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
-    position: relative;
-    height: 60px; /* Space for absolute NO button */
+.buttons-container { position: relative; height: 80px; margin-top: 20px; }
+.btn {
+    padding: 15px 35px; border: none; border-radius: 30px;
+    font-size: 20px; font-weight: 900; cursor: pointer;
+    transition: 0.2s; letter-spacing: 1px;
 }
-#yes-btn, .next-btn {
-    background: #ff8b94;
-    color: white;
-    border: none;
-    padding: 15px 35px;
-    border-radius: 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255,139,148,0.4);
-    transition: transform 0.2s;
+.yes-btn, .next-btn {
+    background: #ff4081; color: white;
+    box-shadow: 0 6px 0 #c51162; margin-top: 15px;
 }
-#yes-btn:hover, .next-btn:hover {
-    transform: scale(1.05);
+.yes-btn:active, .next-btn:active { transform: translateY(6px); box-shadow: none; }
+.no-btn {
+    background: #e0e0e0; color: #333; position: absolute; left: 60%;
+    box-shadow: 0 6px 0 #9e9e9e;
 }
-#no-btn {
-    background: #d3d3d3;
-    color: #333;
-    border: none;
-    padding: 15px 35px;
-    border-radius: 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    position: relative;
-    transition: top 0.2s, left 0.2s;
+.restart-btn { background: #d81b60; font-size: 18px; }
+
+/* Screen 3 Fixed Overlap */
+.image-showcase {
+    display: flex; justify-content: center; align-items: center;
+    gap: 20px; flex-wrap: wrap; margin: 20px 0;
+}
+.circle-profile {
+    width: 180px; height: 180px; border-radius: 50%;
+    object-fit: cover; border: 6px solid #ff4081;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
-/* Birthday Typography */
-.bday-title {
-    font-family: 'Fredoka One', cursive;
-    color: #ff8b94;
-    font-size: 2.5rem;
-    margin: 15px 0;
+/* Screen 4 Fixed Layout */
+.wish-box { background: #fffdf5; border-color: #ffda79; }
+.wish-image-row {
+    display: flex; justify-content: center; gap: 30px; margin-bottom: 25px;
 }
-.bday-text {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
+.polaroid-img {
+    width: 130px; height: 140px; object-fit: cover;
+    border: 8px solid white; border-bottom: 25px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 5px;
 }
-.mt-2 {
-    margin-top: 20px;
+.tilt-left { transform: rotate(-8deg); }
+.tilt-right { transform: rotate(10deg); }
+.wish-text p {
+    font-size: 18px; margin-bottom: 12px; line-height: 1.6;
+    font-weight: 700; color: #4a4a4a;
 }
 
-/* Collage */
-.collage-card {
-    max-width: 800px;
+/* Screen 5: Scattered Collage (replaces boring grid) */
+.crime-partners {
+    font-size: 24px; color: #c2185b; margin: 15px 0 30px 0;
+    text-shadow: 1px 1px 2px rgba(255,182,193,0.8);
 }
-.collage {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-}
-.collage img {
+.photo-cluster {
+    position: relative;
+    height: 380px;
     width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 15px;
-    border: 3px solid #ffe4e1;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    max-width: 450px;
+    margin: 0 auto 30px auto;
 }
-.collage img:hover {
-    transform: scale(1.05);
+.cluster-img {
+    position: absolute;
+    border: 6px solid white;
+    box-shadow: 0 12px 25px rgba(216, 27, 96, 0.25);
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+.cluster-img:hover {
+    transform: scale(1.1) translateY(-10px) !important;
+    z-index: 10 !important;
 }
 
-/* Responsive adjustments */
-@media (max-width: 480px) {
-    .bday-title { font-size: 2rem; }
-    .card { padding: 25px; }
-    .collage img { height: 120px; }
+/* Positioning for the chaotic/creative layout */
+.c-img-1 { 
+    width: 170px; height: 170px; border-radius: 15px; 
+    top: 0; left: 5%; transform: rotate(-12deg); z-index: 2; 
+}
+.c-img-2 { 
+    width: 190px; height: 190px; border-radius: 50%; 
+    top: 30px; right: 0; transform: rotate(8deg); z-index: 1; 
+}
+.c-img-3 { 
+    width: 160px; height: 160px; border-radius: 20px; 
+    bottom: 0; left: 15%; transform: rotate(5deg); z-index: 3; 
+}
+.c-img-4 { 
+    width: 150px; height: 150px; border-radius: 50%; 
+    bottom: 20px; right: 10%; transform: rotate(-8deg); z-index: 4; 
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .photo-side { display: none; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 22px; }
+    .wish-image-row { gap: 10px; }
+    .polaroid-img { width: 100px; height: 110px; border-bottom-width: 15px; }
+    
+    /* Adjust collage sizes for small phones */
+    .photo-cluster { height: 300px; }
+    .c-img-1 { width: 130px; height: 130px; }
+    .c-img-2 { width: 140px; height: 140px; }
+    .c-img-3 { width: 120px; height: 120px; left: 5%; }
+    .c-img-4 { width: 120px; height: 120px; right: 5%; }
 }
