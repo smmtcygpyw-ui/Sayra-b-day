@@ -1,107 +1,88 @@
-let enteredPasscode = "";
-const CORRECT_PASSCODE = "0408";
+let inputCode = "";
+const correctCode = "0408";
 let audioPlayed = false;
+let bgMusic = document.getElementById("bgMusic");
 
-const audio = document.getElementById('bg-music');
-const musicToggle = document.getElementById('music-toggle');
-const dots = document.querySelectorAll('.dot');
-const errorMsg = document.getElementById('error-msg');
-const noBtn = document.getElementById('no-btn');
-
-// Start Music on first interaction across the site
-document.body.addEventListener('click', () => {
+// Play music on first interaction
+function startAudio() {
     if (!audioPlayed) {
-        audio.play();
+        bgMusic.play();
         audioPlayed = true;
-        musicToggle.classList.remove('hidden');
     }
-});
+}
 
-// Play/Pause button logic
-musicToggle.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent body click from re-triggering
-    if (audio.paused) {
-        audio.play();
-        musicToggle.innerText = "⏸️ Pause";
+// Toggle Music Button
+function toggleMusic() {
+    let btn = document.getElementById("musicToggle");
+    if (bgMusic.paused) {
+        bgMusic.play();
+        btn.innerHTML = "🎵 Pause";
     } else {
-        audio.pause();
-        musicToggle.innerText = "▶️ Play";
+        bgMusic.pause();
+        btn.innerHTML = "🎵 Play";
     }
-});
+}
 
 // Passcode Logic
-function addNumber(num) {
-    if (enteredPasscode.length < 4) {
-        enteredPasscode += num;
+function pressKey(num) {
+    startAudio(); // Start music automatically
+    
+    let errorMsg = document.getElementById("error-msg");
+    errorMsg.classList.add("hidden");
+
+    if (inputCode.length < 4) {
+        inputCode += num;
+        updateDots();
+    }
+
+    if (inputCode.length === 4) {
+        setTimeout(checkCode, 300);
+    }
+}
+
+function updateDots() {
+    for (let i = 1; i <= 4; i++) {
+        let dot = document.getElementById("dot" + i);
+        if (i <= inputCode.length) {
+            dot.classList.add("filled");
+        } else {
+            dot.classList.remove("filled");
+        }
+    }
+}
+
+function checkCode() {
+    if (inputCode === correctCode) {
+        nextScreen(2);
+    } else {
+        document.getElementById("error-msg").classList.remove("hidden");
+        inputCode = "";
         updateDots();
     }
 }
 
-function clearPasscode() {
-    enteredPasscode = "";
-    updateDots();
-    errorMsg.style.opacity = 0;
-}
-
-function updateDots() {
-    dots.forEach((dot, index) => {
-        if (index < enteredPasscode.length) {
-            dot.classList.add('filled');
-        } else {
-            dot.classList.remove('filled');
-        }
-    });
-}
-
-function checkPasscode() {
-    if (enteredPasscode === CORRECT_PASSCODE) {
-        errorMsg.style.opacity = 0;
-        nextScreen(2);
-    } else {
-        errorMsg.style.opacity = 1;
-        enteredPasscode = "";
-        setTimeout(updateDots, 300); // Small delay before clearing dots visually
-    }
-}
-
-// Navigation between screens
+// Change Screens (Scrolls to top automatically when changing pages)
 function nextScreen(screenNumber) {
-    // Hide all screens
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
-    // Show target screen
-    document.getElementById(`screen-${screenNumber}`).classList.add('active');
+    document.getElementById('screen' + screenNumber).classList.add('active');
+    window.scrollTo(0, 0); 
 }
 
-function restart() {
-    clearPasscode();
-    nextScreen(1);
-}
+// Runaway "NO" Button
+function moveButton() {
+    let btn = document.getElementById("noBtn");
+    
+    // Calculates a random position within the buttons container
+    let container = document.querySelector(".buttons-container");
+    let maxX = container.clientWidth - btn.clientWidth;
+    
+    // Y-axis movement limits
+    let randomX = Math.floor(Math.random() * maxX);
+    let randomY = Math.floor(Math.random() * 100) - 50; 
 
-// The Running "NO" Button Logic
-function moveNoButton() {
-    // Get the viewport dimensions
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    
-    // Get button dimensions
-    const btnWidth = noBtn.offsetWidth;
-    const btnHeight = noBtn.offsetHeight;
-    
-    // Calculate random position keeping it within the window
-    const randomX = Math.floor(Math.random() * (viewportWidth - btnWidth));
-    const randomY = Math.floor(Math.random() * (viewportHeight - btnHeight));
-    
-    // Switch to fixed positioning so it moves relative to the screen
-    noBtn.style.position = 'fixed';
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
+    btn.style.position = "absolute";
+    btn.style.left = randomX + "px";
+    btn.style.top = randomY + "px";
 }
-
-// Triggers for running away (Mouse hover & Touch for mobile)
-noBtn.addEventListener('mouseover', moveNoButton);
-noBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Prevents clicking the button by tapping fast
-    moveNoButton();
-});
