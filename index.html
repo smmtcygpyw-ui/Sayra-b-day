@@ -1,304 +1,104 @@
-@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sayra!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <!-- Background Music & Controls -->
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+    <button id="music-toggle" class="hidden">⏸️ Pause</button>
 
-body {
-    background-color: #ffd1dc;
-    background-image: radial-gradient(#ff9a9e 15%, transparent 16%);
-    background-size: 20px 20px;
-    font-family: 'Nunito', sans-serif;
-    color: #5a3e3e;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 10px;
-}
+    <!-- Screen 1: Passcode -->
+    <section id="screen-1" class="screen active">
+        <div class="passcode-container">
+            <div class="photo-frame">
+                <img src="image.png" alt="Sayra">
+            </div>
+            <div class="numpad-section">
+                <h2>Enter a passcode</h2>
+                <div class="dots-container">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <p id="error-msg" class="error-msg">Wrong Passcode! Try Again.</p>
+                <div class="numpad">
+                    <button class="num-btn" onclick="addNumber(1)">1</button>
+                    <button class="num-btn" onclick="addNumber(2)">2</button>
+                    <button class="num-btn" onclick="addNumber(3)">3</button>
+                    <button class="num-btn" onclick="addNumber(4)">4</button>
+                    <button class="num-btn" onclick="addNumber(5)">5</button>
+                    <button class="num-btn" onclick="addNumber(6)">6</button>
+                    <button class="num-btn" onclick="addNumber(7)">7</button>
+                    <button class="num-btn" onclick="addNumber(8)">8</button>
+                    <button class="num-btn" onclick="addNumber(9)">9</button>
+                    <button class="num-btn action-btn" onclick="clearPasscode()">C</button>
+                    <button class="num-btn" onclick="addNumber(0)">0</button>
+                    <button class="num-btn action-btn" onclick="checkPasscode()">OK</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-/* Floating Music Control Button */
-#music-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ff477e;
-    color: white;
-    border: none;
-    padding: 12px 22px;
-    border-radius: 25px;
-    cursor: pointer;
-    z-index: 1000;
-    font-weight: bold;
-    font-size: 1rem;
-    box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4);
-    transition: transform 0.2s;
-}
-#music-toggle.hidden {
-    display: none;
-}
-#music-toggle:active {
-    transform: scale(0.95);
-}
+    <!-- Screen 2: The Question -->
+    <section id="screen-2" class="screen">
+        <div class="card">
+            <img src="gif_1.gif" alt="Cute Cat" class="gif-img">
+            <h2>I made something special for my favorite Mahila Mitra... Do you want to see it?</h2>
+            <div class="btn-group">
+                <button id="yes-btn" onclick="nextScreen(3)">YES</button>
+                <button id="no-btn">NO</button>
+            </div>
+        </div>
+    </section>
 
-/* Screen Wrapper */
-.screen {
-    display: none;
-    width: 100%;
-    max-width: 750px;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    animation: fadeIn 0.6s ease-in-out;
-}
-.screen.active {
-    display: flex;
-}
+    <!-- Screen 3: Birthday Greeting -->
+    <section id="screen-3" class="screen">
+        <div class="card">
+            <img src="gif_2.gif" alt="Birthday Cat" class="gif-img">
+            <div class="photo-frame small">
+                <img src="image_2.png" alt="Sayra">
+            </div>
+            <h1 class="bday-title">Happy Birthday Sayra! 🎉</h1>
+            <p class="bday-text">To the most amazing bestie in the world! Thank you for always being there, for the endless laughs, and for just being you.</p>
+            <button class="next-btn" onclick="nextScreen(4)">Click Me!</button>
+        </div>
+    </section>
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+    <!-- Screen 4: The Collage -->
+    <section id="screen-4" class="screen">
+        <div class="card collage-card">
+            <h2>Making Memories 📸</h2>
+            <p>Life is just better with a best friend like you around!</p>
+            <div class="collage">
+                <img src="image_3.png" alt="Sayra">
+                <img src="image_4.png" alt="Sayra">
+                <img src="image_5.png" alt="Sayra">
+                <img src="image_6.png" alt="Sayra">
+                <img src="image_7.png" alt="Sayra">
+                <img src="image_8.png" alt="Sayra">
+            </div>
+            <button class="next-btn mt-2" onclick="nextScreen(5)">One more thing...</button>
+        </div>
+    </section>
 
-/* Card Styling */
-.card {
-    background: #ffffff;
-    padding: 35px 25px;
-    border-radius: 35px;
-    text-align: center;
-    width: 100%;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
-    border: 4px solid #fff0f3;
-}
+    <!-- Screen 5: Ending & Restart -->
+    <section id="screen-5" class="screen">
+        <div class="card">
+            <img src="gif_4.gif" alt="Happy Cat" class="gif-img">
+            <h2>Once again, Happiest Birthday Sayra! 🎂</h2>
+            <p>May all your dreams come true this year.</p>
+            <button class="next-btn restart-btn" onclick="restart()">Relive the Experience</button>
+        </div>
+    </section>
 
-.card h1, .card h2 {
-    font-family: 'Fredoka One', cursive;
-    color: #ff477e;
-    margin-bottom: 15px;
-}
-
-/* Passcode Screen */
-.passcode-container {
-    display: flex;
-    flex-direction: row;
-    background: white;
-    padding: 35px;
-    border-radius: 35px;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
-    gap: 30px;
-    align-items: center;
-    width: 100%;
-}
-
-@media (max-width: 768px) {
-    .passcode-container {
-        flex-direction: column;
-        padding: 25px;
-    }
-}
-
-/* BIG MAIN PHOTO FRAME */
-.photo-frame {
-    border: 6px solid #fff;
-    border-radius: 25px;
-    overflow: hidden;
-    width: 100%;
-    max-width: 320px; /* Increased size */
-    height: 380px;    /* Increased size */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-.photo-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Passcode Pad */
-.numpad-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-.dots-container {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 10px;
-}
-.dot {
-    width: 18px;
-    height: 18px;
-    background: #ffe4e1;
-    border-radius: 50%;
-    border: 2px solid #ff477e;
-    transition: background 0.3s;
-}
-.dot.filled {
-    background: #ff477e;
-}
-.error-msg {
-    color: #ff477e;
-    font-weight: bold;
-    height: 24px;
-    margin-bottom: 10px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-.numpad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-.num-btn {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    border: none;
-    background: #ffccd5;
-    color: #ff477e;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    transition: transform 0.1s, background 0.2s;
-}
-.num-btn:active {
-    transform: scale(0.9);
-    background: #ff477e;
-    color: white;
-}
-.action-btn {
-    background: #ff85a1;
-    color: white;
-    font-size: 1.1rem;
-}
-
-/* WISH PAGE - POLAROID PHOTOS (MUCH LARGER) */
-.wish-photos {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-}
-
-.polaroid-frame {
-    background: white;
-    padding: 12px 12px 35px 12px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    width: 220px;  /* Boosted from small size to 220px */
-    height: 270px; /* Boosted height */
-    transform: rotate(-3deg);
-    transition: transform 0.3s;
-}
-
-.polaroid-frame:nth-child(even) {
-    transform: rotate(4deg);
-}
-
-.polaroid-frame:hover {
-    transform: scale(1.08) rotate(0deg);
-    z-index: 10;
-}
-
-.polaroid-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 6px;
-}
-
-/* COLLAGE GRID (MUCH LARGER PHOTOS) */
-.collage-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2x2 grid for max size */
-    gap: 20px;
-    margin: 25px 0;
-    justify-items: center;
-}
-
-.collage-item {
-    width: 100%;
-    max-width: 240px; /* Boosted photo container */
-    height: 240px;    /* Boosted photo height */
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    border: 5px solid #ffffff;
-    transition: transform 0.3s;
-}
-
-.collage-item.circle {
-    border-radius: 50%; /* Rounded crop style */
-}
-
-.collage-item:hover {
-    transform: scale(1.05);
-}
-
-.collage-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* GIF SIZING */
-.gif-img {
-    width: 180px;
-    height: auto;
-    margin: 10px 0;
-}
-
-/* BUTTONS */
-.btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 25px;
-    position: relative;
-    min-height: 60px;
-}
-#yes-btn, .next-btn {
-    background: #ff477e;
-    color: white;
-    border: none;
-    padding: 14px 40px;
-    border-radius: 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(255, 71, 126, 0.35);
-    transition: transform 0.2s;
-}
-#yes-btn:hover, .next-btn:hover {
-    transform: scale(1.05);
-}
-#no-btn {
-    background: #e0e0e0;
-    color: #555;
-    border: none;
-    padding: 14px 40px;
-    border-radius: 30px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 500px) {
-    .polaroid-frame {
-        width: 160px;
-        height: 210px;
-    }
-    .collage-item {
-        max-width: 150px;
-        height: 150px;
-    }
-    .card {
-        padding: 25px 15px;
-    }
-}
+    <script src="script.js"></script>
+</body>
+</html>
