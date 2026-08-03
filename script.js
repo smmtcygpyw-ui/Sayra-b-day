@@ -8,27 +8,28 @@ const dots = document.querySelectorAll('.dot');
 const errorMsg = document.getElementById('error-msg');
 const noBtn = document.getElementById('no-btn');
 
-// Start Music on First Click
+// Start Music on first interaction across the site
 document.body.addEventListener('click', () => {
     if (!audioPlayed) {
-        audio.play().catch(() => {});
+        audio.play();
         audioPlayed = true;
+        musicToggle.classList.remove('hidden');
     }
 });
 
-// Play/Pause Music Toggle
+// Play/Pause button logic
 musicToggle.addEventListener('click', (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // Prevent body click from re-triggering
     if (audio.paused) {
         audio.play();
-        musicToggle.innerText = "🎵 Pause";
+        musicToggle.innerText = "⏸️ Pause";
     } else {
         audio.pause();
         musicToggle.innerText = "▶️ Play";
     }
 });
 
-// Passcode Functions
+// Passcode Logic
 function addNumber(num) {
     if (enteredPasscode.length < 4) {
         enteredPasscode += num;
@@ -59,17 +60,18 @@ function checkPasscode() {
     } else {
         errorMsg.style.opacity = 1;
         enteredPasscode = "";
-        setTimeout(updateDots, 300);
+        setTimeout(updateDots, 300); // Small delay before clearing dots visually
     }
 }
 
-// Navigation Between Screens
+// Navigation between screens
 function nextScreen(screenNumber) {
+    // Hide all screens
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
+    // Show target screen
     document.getElementById(`screen-${screenNumber}`).classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function restart() {
@@ -77,38 +79,29 @@ function restart() {
     nextScreen(1);
 }
 
-// Running "NO" Button Logic
+// The Running "NO" Button Logic
 function moveNoButton() {
+    // Get the viewport dimensions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     
+    // Get button dimensions
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
     
-    const randomX = Math.floor(Math.random() * (viewportWidth - btnWidth - 40)) + 20;
-    const randomY = Math.floor(Math.random() * (viewportHeight - btnHeight - 40)) + 20;
+    // Calculate random position keeping it within the window
+    const randomX = Math.floor(Math.random() * (viewportWidth - btnWidth));
+    const randomY = Math.floor(Math.random() * (viewportHeight - btnHeight));
     
+    // Switch to fixed positioning so it moves relative to the screen
     noBtn.style.position = 'fixed';
     noBtn.style.left = randomX + 'px';
     noBtn.style.top = randomY + 'px';
 }
 
-if (noBtn) {
-    noBtn.addEventListener('mouseover', moveNoButton);
-    noBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        moveNoButton();
-    });
-}
-
-// LIGHTBOX (TAP TO ENLARGE PHOTO) LOGIC
-function openLightbox(imgSrc) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    lightboxImg.src = imgSrc;
-    lightbox.style.display = 'flex';
-}
-
-function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
-}
+// Triggers for running away (Mouse hover & Touch for mobile)
+noBtn.addEventListener('mouseover', moveNoButton);
+noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevents clicking the button by tapping fast
+    moveNoButton();
+});
