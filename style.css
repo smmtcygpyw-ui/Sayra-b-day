@@ -6,21 +6,24 @@
 }
 
 body {
-    background-color: #fce4ec;
+    /* Beautiful Polka Dot Background */
+    background-color: #ffe6ea;
+    background-image: radial-gradient(#ffb6c1 20%, transparent 20%), radial-gradient(#ffb6c1 20%, transparent 20%);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
     color: #880e4f;
     overflow-x: hidden;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-family: 'Fredoka One', cursive;
     color: #d81b60;
-    margin-bottom: 20px;
     text-align: center;
 }
+
+h2 { margin-bottom: 20px; font-size: 28px; }
+.big-heading { font-size: 32px; margin-bottom: 10px; color: #c2185b; }
+.subtitle { font-size: 20px; font-weight: bold; margin: 15px 0; color: #ad1457; }
 
 /* Floating Audio Button */
 #musicToggle {
@@ -30,30 +33,61 @@ h1, h2 {
     background: #ff4081;
     color: white;
     border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    font-weight: bold;
+    padding: 12px 18px;
+    border-radius: 25px;
+    font-weight: 900;
+    font-size: 16px;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(255, 64, 129, 0.4);
     z-index: 1000;
+    transition: 0.3s;
 }
+#musicToggle:hover { transform: scale(1.1); }
 
-/* Screens */
+/* Screens Layout - Fixed cutting off issues */
 .screen {
     display: none;
     width: 100%;
-    height: 100%;
+    min-height: 100vh; /* Changed from height to min-height */
+    padding: 40px 20px; /* Added padding so content never hits edges */
     justify-content: center;
     align-items: center;
-    animation: fadeIn 0.8s ease-in-out;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .screen.active {
     display: flex;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
+@keyframes popIn {
+    from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
+}
+
+/* Generic Content Box */
+.content-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 15px 35px rgba(216, 27, 96, 0.15);
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+    border: 3px solid #ffb6c1;
+}
+.transparent-box { background: rgba(255, 255, 255, 0.85); border: none; box-shadow: none; }
+
+.main-gif {
+    width: 220px;
+    border-radius: 20px;
+    margin: 10px auto;
+    display: block;
+}
+.float-anim {
+    animation: floatUpDown 3s infinite ease-in-out;
+}
+@keyframes floatUpDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 /* Screen 1: Passcode */
@@ -61,11 +95,12 @@ h1, h2 {
     display: flex;
     background: #fff;
     border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 15px 35px rgba(216, 27, 96, 0.2);
     overflow: hidden;
-    max-width: 800px;
-    width: 90%;
+    max-width: 750px;
+    width: 100%;
     flex-wrap: wrap;
+    border: 4px solid #f8bbd0;
 }
 .photo-side {
     background: #fff0f5;
@@ -77,14 +112,15 @@ h1, h2 {
     padding: 40px;
 }
 .frame {
-    border: 8px solid #ffb6c1;
+    border: 8px solid #ff80ab;
     border-radius: 50%;
-    padding: 10px;
+    padding: 5px;
     background: white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 .frame img {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     object-fit: cover;
     border-radius: 50%;
 }
@@ -92,152 +128,128 @@ h1, h2 {
     flex: 1;
     min-width: 300px;
     padding: 40px;
-    background: #f8bbd0;
+    background: #fce4ec;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.dots {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
+.dots { display: flex; gap: 15px; margin-bottom: 20px; }
 .dot {
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    border: 2px solid #d81b60;
+    width: 20px; height: 20px; background: white;
+    border-radius: 50%; border: 3px solid #d81b60;
 }
-.dot.filled {
-    background: #d81b60;
-}
-.keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
+.dot.filled { background: #d81b60; }
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
 .key {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    background: white;
-    font-size: 24px;
-    font-weight: bold;
-    color: #d81b60;
-    cursor: pointer;
-    box-shadow: 0 4px 0 #f48fb1;
-    transition: 0.1s;
+    width: 65px; height: 65px; border-radius: 50%; border: none;
+    background: white; font-size: 26px; font-weight: 900; color: #d81b60;
+    cursor: pointer; box-shadow: 0 5px 0 #f48fb1; transition: 0.1s;
 }
-.key:active {
-    transform: translateY(4px);
-    box-shadow: none;
-}
-.error {
-    color: red;
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 14px;
-}
-.hidden {
-    visibility: hidden;
-}
-
-/* Generic Content Box */
-.content-box {
-    background: white;
-    padding: 40px;
-    border-radius: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    text-align: center;
-    max-width: 700px;
-    width: 90%;
-    position: relative;
-}
-.main-gif {
-    width: 250px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-}
+.key:active { transform: translateY(5px); box-shadow: none; }
+.error { color: #d32f2f; font-weight: 900; margin-bottom: 15px; font-size: 16px; }
+.hidden { visibility: hidden; }
 
 /* Buttons */
+.buttons-container { position: relative; height: 80px; margin-top: 20px; }
 .btn {
-    padding: 15px 30px;
-    border: none;
-    border-radius: 25px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 10px;
-    transition: 0.2s;
+    padding: 15px 35px; border: none; border-radius: 30px;
+    font-size: 20px; font-weight: 900; cursor: pointer;
+    transition: 0.2s; letter-spacing: 1px;
 }
 .yes-btn, .next-btn {
-    background: #ff4081;
-    color: white;
-    box-shadow: 0 5px 0 #c51162;
+    background: #ff4081; color: white;
+    box-shadow: 0 6px 0 #c51162; margin-top: 15px;
 }
-.yes-btn:active, .next-btn:active {
-    transform: translateY(5px);
-    box-shadow: none;
-}
+.yes-btn:active, .next-btn:active { transform: translateY(6px); box-shadow: none; }
 .no-btn {
-    background: #e0e0e0;
-    color: #333;
-    position: relative;
+    background: #e0e0e0; color: #333; position: absolute; left: 60%;
+    box-shadow: 0 6px 0 #9e9e9e;
+}
+.restart-btn { background: #d81b60; font-size: 18px; }
+
+/* Screen 3 Fixed Overlap */
+.image-showcase {
+    display: flex; justify-content: center; align-items: center;
+    gap: 20px; flex-wrap: wrap; margin: 20px 0;
+}
+.circle-profile {
+    width: 180px; height: 180px; border-radius: 50%;
+    object-fit: cover; border: 6px solid #ff4081;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
-/* Wish Text */
+/* Screen 4 Fixed Layout */
+.wish-box { background: #fffdf5; border-color: #ffda79; }
+.wish-image-row {
+    display: flex; justify-content: center; gap: 30px; margin-bottom: 25px;
+}
+.polaroid-img {
+    width: 130px; height: 140px; object-fit: cover;
+    border: 8px solid white; border-bottom: 25px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-radius: 5px;
+}
+.tilt-left { transform: rotate(-8deg); }
+.tilt-right { transform: rotate(10deg); }
 .wish-text p {
-    font-size: 18px;
-    margin-bottom: 10px;
-    line-height: 1.5;
-    font-weight: bold;
+    font-size: 18px; margin-bottom: 12px; line-height: 1.6;
+    font-weight: 700; color: #4a4a4a;
 }
-.small-img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 15px;
-    position: absolute;
-    border: 3px solid #ff4081;
-    transform: rotate(-10deg);
-}
-.top-left { top: -20px; left: -20px; }
-.bottom-right { bottom: -20px; right: -20px; transform: rotate(10deg); }
-.floating-img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 50%;
-    position: absolute;
-    border: 4px solid white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-.right-img { top: 20px; right: 20px; }
 
-/* Collage */
-.collage {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+/* Screen 5: Scattered Collage (replaces boring grid) */
+.crime-partners {
+    font-size: 24px; color: #c2185b; margin: 15px 0 30px 0;
+    text-shadow: 1px 1px 2px rgba(255,182,193,0.8);
 }
-.collage-img {
+.photo-cluster {
+    position: relative;
+    height: 380px;
     width: 100%;
-    height: 150px;
+    max-width: 450px;
+    margin: 0 auto 30px auto;
+}
+.cluster-img {
+    position: absolute;
+    border: 6px solid white;
+    box-shadow: 0 12px 25px rgba(216, 27, 96, 0.25);
     object-fit: cover;
-    border-radius: 15px;
-    border: 3px solid #ff4081;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+.cluster-img:hover {
+    transform: scale(1.1) translateY(-10px) !important;
+    z-index: 10 !important;
 }
 
-/* Responsive constraints */
+/* Positioning for the chaotic/creative layout */
+.c-img-1 { 
+    width: 170px; height: 170px; border-radius: 15px; 
+    top: 0; left: 5%; transform: rotate(-12deg); z-index: 2; 
+}
+.c-img-2 { 
+    width: 190px; height: 190px; border-radius: 50%; 
+    top: 30px; right: 0; transform: rotate(8deg); z-index: 1; 
+}
+.c-img-3 { 
+    width: 160px; height: 160px; border-radius: 20px; 
+    bottom: 0; left: 15%; transform: rotate(5deg); z-index: 3; 
+}
+.c-img-4 { 
+    width: 150px; height: 150px; border-radius: 50%; 
+    bottom: 20px; right: 10%; transform: rotate(-8deg); z-index: 4; 
+}
+
+/* Responsive */
 @media (max-width: 600px) {
-    .passcode-container { flex-direction: column; }
-    .photo-side { display: none; } /* Hide photo on very small screens for better keypad view */
-    h1 { font-size: 24px; }
-    h2 { font-size: 20px; }
-    .wish-text p { font-size: 16px; }
-    .small-img { display: none; }
+    .photo-side { display: none; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 22px; }
+    .wish-image-row { gap: 10px; }
+    .polaroid-img { width: 100px; height: 110px; border-bottom-width: 15px; }
+    
+    /* Adjust collage sizes for small phones */
+    .photo-cluster { height: 300px; }
+    .c-img-1 { width: 130px; height: 130px; }
+    .c-img-2 { width: 140px; height: 140px; }
+    .c-img-3 { width: 120px; height: 120px; left: 5%; }
+    .c-img-4 { width: 120px; height: 120px; right: 5%; }
 }
