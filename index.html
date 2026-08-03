@@ -1,128 +1,304 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Sayra!</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap');
 
-    <!-- Background Music & Floating Control -->
-    <audio id="bg-music" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-    <button id="music-toggle" class="music-btn">🎵 Pause</button>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <!-- Fullscreen Lightbox Modal (For enlarged photo view) -->
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <span class="close-btn">&times;</span>
-        <img id="lightbox-img" src="" alt="Enlarged Photo">
-    </div>
+body {
+    background-color: #ffd1dc;
+    background-image: radial-gradient(#ff9a9e 15%, transparent 16%);
+    background-size: 20px 20px;
+    font-family: 'Nunito', sans-serif;
+    color: #5a3e3e;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+}
 
-    <!-- Screen 1: Passcode -->
-    <section id="screen-1" class="screen active">
-        <div class="card passcode-card">
-            <div class="hero-photo-container" onclick="openLightbox('image.png')">
-                <img src="image.png" alt="Sayra" class="hero-photo">
-            </div>
-            <div class="numpad-section">
-                <h2>Enter Passcode 🔒</h2>
-                <div class="dots-container">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-                <p id="error-msg" class="error-msg">Wrong Passcode! Try Again.</p>
-                <div class="numpad">
-                    <button class="num-btn" onclick="addNumber(1)">1</button>
-                    <button class="num-btn" onclick="addNumber(2)">2</button>
-                    <button class="num-btn" onclick="addNumber(3)">3</button>
-                    <button class="num-btn" onclick="addNumber(4)">4</button>
-                    <button class="num-btn" onclick="addNumber(5)">5</button>
-                    <button class="num-btn" onclick="addNumber(6)">6</button>
-                    <button class="num-btn" onclick="addNumber(7)">7</button>
-                    <button class="num-btn" onclick="addNumber(8)">8</button>
-                    <button class="num-btn" onclick="addNumber(9)">9</button>
-                    <button class="num-btn action-btn" onclick="clearPasscode()">C</button>
-                    <button class="num-btn" onclick="addNumber(0)">0</button>
-                    <button class="num-btn action-btn" onclick="checkPasscode()">OK</button>
-                </div>
-            </div>
-        </div>
-    </section>
+/* Floating Music Control Button */
+#music-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff477e;
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 25px;
+    cursor: pointer;
+    z-index: 1000;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(255, 71, 126, 0.4);
+    transition: transform 0.2s;
+}
+#music-toggle.hidden {
+    display: none;
+}
+#music-toggle:active {
+    transform: scale(0.95);
+}
 
-    <!-- Screen 2: Interactive Question -->
-    <section id="screen-2" class="screen">
-        <div class="card">
-            <img src="gif_1.gif" alt="Cute Cat" class="gif-img">
-            <h2>I made something special for my favorite Mahila Mitra... Do you want to see it? ✨</h2>
-            <div class="btn-group">
-                <button id="yes-btn" class="main-btn" onclick="nextScreen(3)">YES! 🎉</button>
-                <button id="no-btn">NO 😜</button>
-            </div>
-        </div>
-    </section>
+/* Screen Wrapper */
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: fadeIn 0.6s ease-in-out;
+}
+.screen.active {
+    display: flex;
+}
 
-    <!-- Screen 3: Wish & Big Polaroids -->
-    <section id="screen-3" class="screen">
-        <div class="card wide-card">
-            <h1 class="card-title">My Wish For U 💌✨</h1>
-            
-            <!-- Large Polaroids Section -->
-            <div class="polaroid-row">
-                <div class="polaroid" onclick="openLightbox('image_2.png')">
-                    <img src="image_2.png" alt="Sayra Photo 2">
-                </div>
-                <div class="polaroid tilt-right" onclick="openLightbox('image_3.png')">
-                    <img src="image_3.png" alt="Sayra Photo 3">
-                </div>
-            </div>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-            <div class="message-box">
-                <p><strong>Happiest Birthday to my absolute favorite person! 🥳</strong></p>
-                <p>I wish God blesses you with all the happiness, success, and joy in your life. 🌸</p>
-                <p>May you always keep that beautiful smile on your face. 😊</p>
-                <p>Thank you for being the most amazing best friend, for always listening to my rants, and for tolerating me! 🤪</p>
-                <p>You make every single day better just by being in it. 🌻</p>
-                <p class="signature">Keep shining, Sayra! ✨💫</p>
-            </div>
+/* Card Styling */
+.card {
+    background: #ffffff;
+    padding: 35px 25px;
+    border-radius: 35px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    border: 4px solid #fff0f3;
+}
 
-            <button class="main-btn" onclick="nextScreen(4)">Next ➡️</button>
-        </div>
-    </section>
+.card h1, .card h2 {
+    font-family: 'Fredoka One', cursive;
+    color: #ff477e;
+    margin-bottom: 15px;
+}
 
-    <!-- Screen 4: Virtual Hug & Big Photo Collage -->
-    <section id="screen-4" class="screen">
-        <div class="card wide-card">
-            <h1 class="card-title">Virtual Hug For You 🤗🫂</h1>
-            <img src="gif_3.gif" alt="Cat Hug" class="gif-img hug-gif">
-            <h2 class="sub-title">Partners in Crime Forever! 👯‍♀️💗</h2>
+/* Passcode Screen */
+.passcode-container {
+    display: flex;
+    flex-direction: row;
+    background: white;
+    padding: 35px;
+    border-radius: 35px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
+    gap: 30px;
+    align-items: center;
+    width: 100%;
+}
 
-            <!-- Large Photo Collage Grid -->
-            <div class="big-collage">
-                <div class="collage-item polaroid-style" onclick="openLightbox('image_4.png')">
-                    <img src="image_4.png" alt="Sayra Photo 4">
-                </div>
-                <div class="collage-item circle-style" onclick="openLightbox('image_5.png')">
-                    <img src="image_5.png" alt="Sayra Photo 5">
-                </div>
-                <div class="collage-item polaroid-style" onclick="openLightbox('image_6.png')">
-                    <img src="image_6.png" alt="Sayra Photo 6">
-                </div>
-                <div class="collage-item circle-style" onclick="openLightbox('image_7.png')">
-                    <img src="image_7.png" alt="Sayra Photo 7">
-                </div>
-                <div class="collage-item polaroid-style full-width-item" onclick="openLightbox('image_8.png')">
-                    <img src="image_8.png" alt="Sayra Photo 8">
-                </div>
-            </div>
+@media (max-width: 768px) {
+    .passcode-container {
+        flex-direction: column;
+        padding: 25px;
+    }
+}
 
-            <button class="main-btn restart-btn" onclick="restart()">Relive The Experience 🔄</button>
-        </div>
-    </section>
+/* BIG MAIN PHOTO FRAME */
+.photo-frame {
+    border: 6px solid #fff;
+    border-radius: 25px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 320px; /* Increased size */
+    height: 380px;    /* Increased size */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+/* Passcode Pad */
+.numpad-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.dots-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+.dot {
+    width: 18px;
+    height: 18px;
+    background: #ffe4e1;
+    border-radius: 50%;
+    border: 2px solid #ff477e;
+    transition: background 0.3s;
+}
+.dot.filled {
+    background: #ff477e;
+}
+.error-msg {
+    color: #ff477e;
+    font-weight: bold;
+    height: 24px;
+    margin-bottom: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+.num-btn {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: none;
+    background: #ffccd5;
+    color: #ff477e;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.1s, background 0.2s;
+}
+.num-btn:active {
+    transform: scale(0.9);
+    background: #ff477e;
+    color: white;
+}
+.action-btn {
+    background: #ff85a1;
+    color: white;
+    font-size: 1.1rem;
+}
+
+/* WISH PAGE - POLAROID PHOTOS (MUCH LARGER) */
+.wish-photos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.polaroid-frame {
+    background: white;
+    padding: 12px 12px 35px 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    width: 220px;  /* Boosted from small size to 220px */
+    height: 270px; /* Boosted height */
+    transform: rotate(-3deg);
+    transition: transform 0.3s;
+}
+
+.polaroid-frame:nth-child(even) {
+    transform: rotate(4deg);
+}
+
+.polaroid-frame:hover {
+    transform: scale(1.08) rotate(0deg);
+    z-index: 10;
+}
+
+.polaroid-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* COLLAGE GRID (MUCH LARGER PHOTOS) */
+.collage-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid for max size */
+    gap: 20px;
+    margin: 25px 0;
+    justify-items: center;
+}
+
+.collage-item {
+    width: 100%;
+    max-width: 240px; /* Boosted photo container */
+    height: 240px;    /* Boosted photo height */
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    border: 5px solid #ffffff;
+    transition: transform 0.3s;
+}
+
+.collage-item.circle {
+    border-radius: 50%; /* Rounded crop style */
+}
+
+.collage-item:hover {
+    transform: scale(1.05);
+}
+
+.collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* GIF SIZING */
+.gif-img {
+    width: 180px;
+    height: auto;
+    margin: 10px 0;
+}
+
+/* BUTTONS */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 25px;
+    position: relative;
+    min-height: 60px;
+}
+#yes-btn, .next-btn {
+    background: #ff477e;
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(255, 71, 126, 0.35);
+    transition: transform 0.2s;
+}
+#yes-btn:hover, .next-btn:hover {
+    transform: scale(1.05);
+}
+#no-btn {
+    background: #e0e0e0;
+    color: #555;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 500px) {
+    .polaroid-frame {
+        width: 160px;
+        height: 210px;
+    }
+    .collage-item {
+        max-width: 150px;
+        height: 150px;
+    }
+    .card {
+        padding: 25px 15px;
+    }
+}
