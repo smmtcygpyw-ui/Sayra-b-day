@@ -1,88 +1,114 @@
-let inputCode = "";
-const correctCode = "0408";
+let enteredPasscode = "";
+const CORRECT_PASSCODE = "0408";
 let audioPlayed = false;
-let bgMusic = document.getElementById("bgMusic");
 
-// Play music on first interaction
-function startAudio() {
+const audio = document.getElementById('bg-music');
+const musicToggle = document.getElementById('music-toggle');
+const dots = document.querySelectorAll('.dot');
+const errorMsg = document.getElementById('error-msg');
+const noBtn = document.getElementById('no-btn');
+
+// Start Music on First Click
+document.body.addEventListener('click', () => {
     if (!audioPlayed) {
-        bgMusic.play();
+        audio.play().catch(() => {});
         audioPlayed = true;
     }
-}
+});
 
-// Toggle Music Button
-function toggleMusic() {
-    let btn = document.getElementById("musicToggle");
-    if (bgMusic.paused) {
-        bgMusic.play();
-        btn.innerHTML = "🎵 Pause";
+// Play/Pause Music Toggle
+musicToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (audio.paused) {
+        audio.play();
+        musicToggle.innerText = "🎵 Pause";
     } else {
-        bgMusic.pause();
-        btn.innerHTML = "🎵 Play";
+        audio.pause();
+        musicToggle.innerText = "▶️ Play";
     }
-}
+});
 
-// Passcode Logic
-function pressKey(num) {
-    startAudio(); // Start music automatically
-    
-    let errorMsg = document.getElementById("error-msg");
-    errorMsg.classList.add("hidden");
-
-    if (inputCode.length < 4) {
-        inputCode += num;
+// Passcode Functions
+function addNumber(num) {
+    if (enteredPasscode.length < 4) {
+        enteredPasscode += num;
         updateDots();
     }
+}
 
-    if (inputCode.length === 4) {
-        setTimeout(checkCode, 300);
-    }
+function clearPasscode() {
+    enteredPasscode = "";
+    updateDots();
+    errorMsg.style.opacity = 0;
 }
 
 function updateDots() {
-    for (let i = 1; i <= 4; i++) {
-        let dot = document.getElementById("dot" + i);
-        if (i <= inputCode.length) {
-            dot.classList.add("filled");
+    dots.forEach((dot, index) => {
+        if (index < enteredPasscode.length) {
+            dot.classList.add('filled');
         } else {
-            dot.classList.remove("filled");
+            dot.classList.remove('filled');
         }
-    }
+    });
 }
 
-function checkCode() {
-    if (inputCode === correctCode) {
+function checkPasscode() {
+    if (enteredPasscode === CORRECT_PASSCODE) {
+        errorMsg.style.opacity = 0;
         nextScreen(2);
     } else {
-        document.getElementById("error-msg").classList.remove("hidden");
-        inputCode = "";
-        updateDots();
+        errorMsg.style.opacity = 1;
+        enteredPasscode = "";
+        setTimeout(updateDots, 300);
     }
 }
 
-// Change Screens (Scrolls to top automatically when changing pages)
+// Navigation Between Screens
 function nextScreen(screenNumber) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
-    document.getElementById('screen' + screenNumber).classList.add('active');
-    window.scrollTo(0, 0); 
+    document.getElementById(`screen-${screenNumber}`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Runaway "NO" Button
-function moveButton() {
-    let btn = document.getElementById("noBtn");
-    
-    // Calculates a random position within the buttons container
-    let container = document.querySelector(".buttons-container");
-    let maxX = container.clientWidth - btn.clientWidth;
-    
-    // Y-axis movement limits
-    let randomX = Math.floor(Math.random() * maxX);
-    let randomY = Math.floor(Math.random() * 100) - 50; 
+function restart() {
+    clearPasscode();
+    nextScreen(1);
+}
 
-    btn.style.position = "absolute";
-    btn.style.left = randomX + "px";
-    btn.style.top = randomY + "px";
+// Running "NO" Button Logic
+function moveNoButton() {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    
+    const randomX = Math.floor(Math.random() * (viewportWidth - btnWidth - 40)) + 20;
+    const randomY = Math.floor(Math.random() * (viewportHeight - btnHeight - 40)) + 20;
+    
+    noBtn.style.position = 'fixed';
+    noBtn.style.left = randomX + 'px';
+    noBtn.style.top = randomY + 'px';
+}
+
+if (noBtn) {
+    noBtn.addEventListener('mouseover', moveNoButton);
+    noBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        moveNoButton();
+    });
+}
+
+// LIGHTBOX (TAP TO ENLARGE PHOTO) LOGIC
+function openLightbox(imgSrc) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    lightboxImg.src = imgSrc;
+    lightbox.style.display = 'flex';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
 }
