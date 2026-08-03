@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Sayra!</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -24,14 +24,14 @@
                 </div>
             </div>
             <div class="keypad-side">
-                <h2>Enter a passcode</h2>
+                <h2>Enter passcode 🔐</h2>
                 <div class="dots">
                     <span class="dot" id="dot1"></span>
                     <span class="dot" id="dot2"></span>
                     <span class="dot" id="dot3"></span>
                     <span class="dot" id="dot4"></span>
                 </div>
-                <p id="error-msg" class="error hidden">WRONG PASSCODE! TRY AGAIN</p>
+                <p id="error-msg" class="error hidden">WRONG PASSCODE! TRY AGAIN 🥺</p>
                 <div class="keypad">
                     <button class="key" onclick="pressKey(1)">1</button>
                     <button class="key" onclick="pressKey(2)">2</button>
@@ -53,11 +53,11 @@
     <!-- Screen 2: The Question -->
     <div id="screen2" class="screen">
         <div class="content-box">
-            <img src="gif1.gif" alt="Cute Gif" class="main-gif">
-            <h2>I made something special for you, bestie.<br>Do you wanna see?</h2>
+            <img src="gif1.gif" alt="Cute Gif" class="main-gif float-anim">
+            <h2>I made something special for you, bestie! 🥺💝<br><br>Do you wanna see? 👀✨</h2>
             <div class="buttons-container">
-                <button class="btn yes-btn" onclick="nextScreen(3)">YES</button>
-                <button class="btn no-btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO</button>
+                <button class="btn yes-btn" onclick="nextScreen(3)">YES! 😍</button>
+                <button class="btn no-btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">NO 👎</button>
             </div>
         </div>
     </div>
@@ -65,47 +65,55 @@
     <!-- Screen 3: Happy Birthday -->
     <div id="screen3" class="screen">
         <div class="content-box">
-            <h1>HAPPY BIRTHDAY SAYRA! 🎉</h1>
-            <img src="gif2.gif" alt="Birthday Cake Gif" class="main-gif">
-            <img src="image_2.png" alt="Sayra" class="floating-img right-img">
-            <p class="subtitle">To the best Mahila Mitra in the whole wide world!</p>
-            <button class="btn next-btn" onclick="nextScreen(4)">Click Me 💖</button>
+            <h1>HAPPY BIRTHDAY SAYRA! 🎉🎂</h1>
+            <div class="image-showcase">
+                <img src="gif2.gif" alt="Birthday Cake Gif" class="main-gif">
+                <img src="image_2.png" alt="Sayra" class="circle-profile">
+            </div>
+            <p class="subtitle">To the best Mahila Mitra in the whole wide world! 🌍💖</p>
+            <button class="btn next-btn" onclick="nextScreen(4)">Click Me ✨</button>
         </div>
     </div>
 
     <!-- Screen 4: The Wish -->
     <div id="screen4" class="screen">
         <div class="content-box wish-box">
-            <h2>My Wish For U ✨</h2>
-            <img src="image_3.png" alt="Sayra" class="small-img top-left">
-            <img src="image_4.png" alt="Sayra" class="small-img bottom-right">
+            <h2>My Wish For U 💌✨</h2>
+            
+            <div class="wish-image-row">
+                <img src="image_3.png" alt="Sayra" class="polaroid-img tilt-left">
+                <img src="image_4.png" alt="Sayra" class="polaroid-img tilt-right">
+            </div>
+
             <div class="wish-text">
-                <p>Happiest Birthday to my absolute favorite person!</p>
-                <p>I wish God blesses you with all the happiness, success, and joy in your life.</p>
-                <p>May you always keep that beautiful smile on your face.</p>
-                <p>Thank you for being the most amazing best friend, for always listening to my rants, and for tolerating me!</p>
-                <p>You make every single day better just by being in it.</p>
-                <p>Keep shining, Sayra! 🌟</p>
+                <p>Happiest Birthday to my absolute favorite person! 🥳</p>
+                <p>I wish God blesses you with all the happiness, success, and joy in your life. 🌸</p>
+                <p>May you always keep that beautiful smile on your face. 😊</p>
+                <p>Thank you for being the most amazing best friend, for always listening to my rants, and for tolerating me! 🤪</p>
+                <p>You make every single day better just by being in it. 🌻</p>
+                <p>Keep shining, Sayra! 🌟💫</p>
             </div>
             <button class="btn next-btn" onclick="nextScreen(5)">Next ➡️</button>
         </div>
     </div>
 
-    <!-- Screen 5: Collage & Final Page -->
+    <!-- Screen 5: Creative Collage -->
     <div id="screen5" class="screen">
-        <div class="content-box">
-            <h2>Virtual Hug For Ya! 🤗</h2>
-            <img src="gif3.gif" alt="Hug Gif" class="main-gif">
-            <p class="subtitle">Here are some of my favorite moments of you!</p>
+        <div class="content-box transparent-box">
+            <h2 class="big-heading">Virtual Hug For You 🤗🫂</h2>
+            <img src="gif3.gif" alt="Hug Gif" class="main-gif float-anim">
             
-            <div class="collage">
-                <img src="image_5.png" alt="Sayra" class="collage-img">
-                <img src="image_6.png" alt="Sayra" class="collage-img">
-                <img src="image_7.png" alt="Sayra" class="collage-img">
-                <img src="image_8.png" alt="Sayra" class="collage-img">
+            <h3 class="crime-partners">Partners in Crime Forever! 👯‍♀️💖</h3>
+            
+            <!-- Scattered Overlapping Photos (No boring grids!) -->
+            <div class="photo-cluster">
+                <img src="image_5.png" alt="Sayra" class="cluster-img c-img-1">
+                <img src="image_6.png" alt="Sayra" class="cluster-img c-img-2">
+                <img src="image_7.png" alt="Sayra" class="cluster-img c-img-3">
+                <img src="image_8.png" alt="Sayra" class="cluster-img c-img-4">
             </div>
 
-            <button class="btn next-btn" onclick="location.reload()">Relive The Experience 🔄</button>
+            <button class="btn next-btn restart-btn" onclick="location.reload()">Relive The Experience 🔄</button>
         </div>
     </div>
 
