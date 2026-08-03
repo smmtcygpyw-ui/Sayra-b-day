@@ -3,7 +3,7 @@ const correctCode = "0408";
 let audioPlayed = false;
 let bgMusic = document.getElementById("bgMusic");
 
-// Play music on first interaction (Browser requirement)
+// Play music on first interaction
 function startAudio() {
     if (!audioPlayed) {
         bgMusic.play();
@@ -25,7 +25,7 @@ function toggleMusic() {
 
 // Passcode Logic
 function pressKey(num) {
-    startAudio(); // Ensures music starts as soon as they touch the keypad
+    startAudio(); // Start music automatically
     
     let errorMsg = document.getElementById("error-msg");
     errorMsg.classList.add("hidden");
@@ -61,25 +61,26 @@ function checkCode() {
     }
 }
 
-// Change Screens
+// Change Screens (Scrolls to top automatically when changing pages)
 function nextScreen(screenNumber) {
     document.querySelectorAll('.screen').forEach(screen => {
         screen.classList.remove('active');
     });
     document.getElementById('screen' + screenNumber).classList.add('active');
+    window.scrollTo(0, 0); 
 }
 
 // Runaway "NO" Button
 function moveButton() {
     let btn = document.getElementById("noBtn");
     
-    // Calculates a random position within the container bounds
-    let container = document.querySelector("#screen2 .content-box");
-    let maxX = container.clientWidth - btn.clientWidth - 20;
-    let maxY = container.clientHeight - btn.clientHeight - 20;
+    // Calculates a random position within the buttons container
+    let container = document.querySelector(".buttons-container");
+    let maxX = container.clientWidth - btn.clientWidth;
     
+    // Y-axis movement limits
     let randomX = Math.floor(Math.random() * maxX);
-    let randomY = Math.floor(Math.random() * maxY);
+    let randomY = Math.floor(Math.random() * 100) - 50; 
 
     btn.style.position = "absolute";
     btn.style.left = randomX + "px";
