@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: #fce4ec;
+    color: #880e4f;
+    overflow-x: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1, h2 {
+    font-family: 'Fredoka One', cursive;
+    color: #d81b60;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Floating Audio Button */
+#musicToggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff4081;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+/* Screens */
+.screen {
+    display: none;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+.screen.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Screen 1: Passcode */
+.passcode-container {
+    display: flex;
+    background: #fff;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 800px;
+    width: 90%;
+    flex-wrap: wrap;
+}
+.photo-side {
+    background: #fff0f5;
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+.frame {
+    border: 8px solid #ffb6c1;
+    border-radius: 50%;
+    padding: 10px;
+    background: white;
+}
+.frame img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.keypad-side {
+    flex: 1;
+    min-width: 300px;
+    padding: 40px;
+    background: #f8bbd0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dots {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.dot {
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    border: 2px solid #d81b60;
+}
+.dot.filled {
+    background: #d81b60;
+}
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+.key {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    font-size: 24px;
+    font-weight: bold;
+    color: #d81b60;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #f48fb1;
+    transition: 0.1s;
+}
+.key:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+.error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.hidden {
+    visibility: hidden;
+}
+
+/* Generic Content Box */
+.content-box {
+    background: white;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 700px;
+    width: 90%;
+    position: relative;
+}
+.main-gif {
+    width: 250px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.2s;
+}
+.yes-btn, .next-btn {
+    background: #ff4081;
+    color: white;
+    box-shadow: 0 5px 0 #c51162;
+}
+.yes-btn:active, .next-btn:active {
+    transform: translateY(5px);
+    box-shadow: none;
+}
+.no-btn {
+    background: #e0e0e0;
+    color: #333;
+    position: relative;
+}
+
+/* Wish Text */
+.wish-text p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-weight: bold;
+}
+.small-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 15px;
+    position: absolute;
+    border: 3px solid #ff4081;
+    transform: rotate(-10deg);
+}
+.top-left { top: -20px; left: -20px; }
+.bottom-right { bottom: -20px; right: -20px; transform: rotate(10deg); }
+.floating-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    border: 4px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.right-img { top: 20px; right: 20px; }
+
+/* Collage */
+.collage {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.collage-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid #ff4081;
+}
+
+/* Responsive constraints */
+@media (max-width: 600px) {
+    .passcode-container { flex-direction: column; }
+    .photo-side { display: none; } /* Hide photo on very small screens for better keypad view */
+    h1 { font-size: 24px; }
+    h2 { font-size: 20px; }
+    .wish-text p { font-size: 16px; }
+    .small-img { display: none; }
+}
